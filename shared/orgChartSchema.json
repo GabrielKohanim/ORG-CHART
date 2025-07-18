@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Organization Chart Schema",
+  "description": "Schema for validating organizational chart data",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "description": "Array of employee nodes in the organization",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the employee"
+          },
+          "name": {
+            "type": "string",
+            "description": "Employee's full name"
+          },
+          "role": {
+            "type": "string",
+            "description": "Employee's job title or role"
+          },
+          "department": {
+            "type": "string",
+            "description": "Department the employee belongs to",
+            "enum": ["Executive", "Technology", "Finance", "Marketing", "HR", "Sales", "General", "Other"]
+          },
+          "customDepartment": {
+            "type": "string",
+            "description": "Custom department name when department is 'Other'"
+          },
+          "email": {
+            "type": "string",
+            "description": "Employee email address"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Employee phone number"
+          },
+          "skills": {
+            "type": "string",
+            "description": "Employee skills and expertise"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the employee"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number",
+                "description": "X coordinate for node positioning"
+              },
+              "y": {
+                "type": "number",
+                "description": "Y coordinate for node positioning"
+              }
+            },
+            "required": ["x", "y"]
+          },
+          "avatar": {
+            "type": ["string", "null"],
+            "description": "URL to employee's avatar image"
+          },
+          "type": {
+            "type": "string",
+            "description": "Node type: 'text' (default) or 'image'",
+            "enum": ["text", "image"],
+            "default": "text"
+          },
+          "src": {
+            "type": ["string", "null"],
+            "description": "Image source (data URI or URL) for image nodes"
+          },
+          "title": {
+            "type": ["string", "null"],
+            "description": "Title for image node (e.g., company name)"
+          },
+          "description": {
+            "type": ["string", "null"],
+            "description": "Description for image node (e.g., about the company)"
+          }
+        },
+        "required": ["id", "position"]
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Array of connections between employees",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "ID of the source employee (manager)"
+          },
+          "target": {
+            "type": "string",
+            "description": "ID of the target employee (direct report)"
+          }
+        },
+        "required": ["source", "target"]
+      }
+    }
+  },
+  "required": ["nodes", "edges"]
+} 
