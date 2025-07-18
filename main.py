@@ -14,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 import os
 import uuid
 
+
 app = FastAPI(
     title="Org Chart Builder API",
     description="AI-powered organizational chart builder with RAG suggestions",
