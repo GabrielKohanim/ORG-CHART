@@ -12,7 +12,6 @@ load_dotenv()
 #pinecone_api_key = os.getenv('PINECONE_API_KEY')
 pinecone_api_key = PINECONE_API_KEY
 
-print(pinecone_api_key)
 if not pinecone_api_key:
     raise ValueError("Where yo Pinecone API key at??")
 
