@@ -9,8 +9,10 @@ from pinecone_plugins.assistant.models.chat import Message
 # Load env variables from .env file 
 load_dotenv()
 
-pinecone_api_key = os.getenv('PINECONE_API_KEY')
+#pinecone_api_key = os.getenv('PINECONE_API_KEY')
+pinecone_api_key = PINECONE_API_KEY
 
+print(pinecone_api_key)
 if not pinecone_api_key:
     raise ValueError("Where yo Pinecone API key at??")
 
