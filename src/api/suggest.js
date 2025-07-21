@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'https://localhost:8080'
+const API_BASE_URL = 'https://orgchartbackend-production.up.railway.app/'
 
 const api = axios.create({
   baseURL: API_BASE_URL,
