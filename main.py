@@ -21,10 +21,15 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware
+# 👇 Set this to your frontend’s deployed URL (exact match, including https://)
+origins = [
+    "*"
+]
+
+# 👇 CORS must be added before any routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3001","http://localhost:8080", "http://127.0.0.1:3000", "https://org-chart-production.up.railway.app/", "https://org-chart-production.up.railway.app"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -94,6 +99,10 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "org-chart-builder"}
+
+@app.options("/test-cors")
+def test_cors():
+    return {"message": "cors okay"}
 
 @app.post("/api/suggest", response_model=SuggestResponse)
 async def suggest_changes(request: SuggestRequest):
@@ -360,4 +369,4 @@ async def upload_logo(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, proxy_headers=True, forwarded_allow_ips="*")
