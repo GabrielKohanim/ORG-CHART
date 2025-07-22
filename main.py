@@ -21,20 +21,40 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# 👇 Set this to your frontend’s deployed URL (exact match, including https://)
+#  Set this to your frontend’s deployed URL (exact match, including https://)
+# Updated origins - make sure these match your actual domains exactly
 origins = [
-    "*"
+    "*" # for HTTPS local development
 ]
 
-# 👇 CORS must be added before any routes
+'''
+# CORS middleware - MUST be added before any routes
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+# Add additional middleware to handle CORS manually
+@app.middleware("http")
+async def cors_handler(request, call_next):
+    response = await call_next(request)
+    
+    # Handle CORS headers manually
+    origin = request.headers.get("origin")
+    if origin:
+        response.headers["Access-Control-Allow-Origin"] = origin
+    else:
+        response.headers["Access-Control-Allow-Origin"] = "*"
+    
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Max-Age"] = "86400"
+    
+    return response
 
+'''
 # Initialize myGemini instance
 gemini_ai = myGemini()
 
@@ -369,4 +389,4 @@ async def upload_logo(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, proxy_headers=True, forwarded_allow_ips="*")
+    uvicorn.run("main:app", host="::", port=int(os.environ["PORT"]), proxy_headers=True, forwarded_allow_ips="*")
