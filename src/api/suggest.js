@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'https://org-chart-production.up.railway.app/' //tis def the pronlem 
+const API_BASE_URL = 'https://orgchartbackend-production.up.railway.app' //tis def the pronlem 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
